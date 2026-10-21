@@ -18,8 +18,8 @@ class StudentFactory extends Factory
     public function definition(): array
     {
         return [
-        'name' => fake()->name(),
-        'nim' => fake()->numerify('###########'),
+            'name' => fake()->name(),
+            'nim' => fake()->numerify('############'),
         ];
     }
 }

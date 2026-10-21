@@ -12,15 +12,20 @@ class StudentController extends Controller
      */
     public function index()
     {
-        //
-    }
+
+
+        return view('student.index', [
+            'title' => 'student',
+            'students'=>student::latest()->get(),
+            ]);
+    }  
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+        return view('student.create', ['title' => 'create student']);
     }
 
     /**
@@ -28,7 +33,21 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+        'name' => 'required',
+        'nim' => 'required|numeric|digits:12',
+    ],
+    [
+        'name.required' => 'nama wajib di input',
+        'nim.required' => 'nim wajib di input',
+        'nim.numeric' => 'nim wajib berupa angka',
+        'nim.digits' => 'nim wajib 12 digit',
+    ]
+    );
+ 
+    Student::create($validated);
+ 
+    return redirect('/student');
     }
 
     /**
