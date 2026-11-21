@@ -13,7 +13,6 @@ class StudentController extends Controller
     public function index()
     {
 
-
         return view('student.index', [
             'title' => 'student',
             'students'=>student::latest()->get(),
@@ -44,10 +43,10 @@ class StudentController extends Controller
         'nim.digits' => 'nim wajib 12 digit',
     ]
     );
- 
+
     Student::create($validated);
- 
-    return redirect('/student');
+    return to_route('student.index')->withSuccess('Data Berhasil Ditambahkan');
+
     }
 
     /**
@@ -63,7 +62,10 @@ class StudentController extends Controller
      */
     public function edit(Student $student)
     {
-        //
+            return view('student.edit', [
+            'title' => 'edit student',
+            'student'=> $student,
+            ]);
     }
 
     /**
@@ -71,7 +73,21 @@ class StudentController extends Controller
      */
     public function update(Request $request, Student $student)
     {
-        //
+
+    $validated = $request->validate([
+        'name' => 'required',
+        'nim' => 'required|numeric|digits:12',
+    ],
+    [
+        'name.required' => 'nama wajib di input',
+        'nim.required' => 'nim wajib di input',
+        'nim.numeric' => 'nim wajib berupa angka',
+        'nim.digits' => 'nim wajib 12 digit',
+    ]
+    );
+
+    $student->update($validated);
+    return to_route('student.index')->withSuccess('Data Berhasil di ubah');
     }
 
     /**
@@ -79,6 +95,7 @@ class StudentController extends Controller
      */
     public function destroy(Student $student)
     {
-        //
+    $student->delete();
+    return to_route('student.index')->withSuccess('Data Berhasil di hapus');
     }
 }
