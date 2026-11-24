@@ -39,7 +39,10 @@ class DepartementController extends Controller
      */
     public function show(departement $departement)
     {
-        //
+            return view('departement.show', [
+            'title' => 'detail departement' . $departement->name,
+            'departement'=>$departement,
+            ]); 
     }
 
     /**
@@ -63,6 +66,7 @@ class DepartementController extends Controller
      */
     public function destroy(departement $departement)
     {
-        //
+    $departement->delete();
+    return to_route('departement.index')->withSuccess('Data Berhasil di hapus');
     }
 }
